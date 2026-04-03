@@ -1,8 +1,36 @@
-🛡️ Hybrid-Forensic: Deepfake Detection via RGB-Frequency Fusion🚨 The Problem: Why Standard AI FailsMost deepfake detectors are easily "fooled" by specific faces or lighting they've seen during training (Identity Leakage). They look at the image, but they don't "listen" to the math.💡 The Solution: A 4-Channel Hybrid ApproachThis project moves beyond standard RGB analysis. By injecting a 4th channel containing the 2D Discrete Fourier Transform (DFT), the model analyzes mathematical frequency artifacts—invisible to the human eye—that serve as the "digital fingerprints" of AI generation.🛠️ Technical InnovationArchitecture: Modified EfficientNet-B0 patched to accept a custom 4-channel input (RGB + FFT).Feature Engineering: Integrated a real-time FFT generator to capture "checkerboard artifacts" resulting from GAN upsampling layers.Robust Validation: Implemented a strict Video-Level Split (ensuring zero frame leakage between sets) to prevent "cheating" by memorization.Forensic Precision: Utilized CenterCrop(180) to force the model to focus on facial "Forensic Zones," eliminating background bias.📊 Performance MetricsMetricResultValidation AUC0.9270Accuracy87%Recall (Fakes Caught)80%🔍 Explainability (Grad-CAM)We don't just trust the "Black Box." Using Grad-CAM, we visualize exactly what the model prioritizes. In successful detections, the model ignores identity and focuses on the frequency spikes around manipulated facial boundaries.🚀 Real-World Testing: The "WhatsApp" ChallengeThe model was stress-tested against "wild" samples, including images compressed via WhatsApp. Despite the heavy JPEG compression noise, the hybrid architecture maintained high confidence (up to 96%+) by isolating underlying signal noise from spatial textures.📂 Project StructureBash├── models/
-│   └── deepfake_hybrid_effnet.pth  # Trained Weights (0.927 AUC)
-├── src/
-│   ├── fft_logic.py                # Signal processing for 4th channel
-│   ├── model_arch.py               # Patched EfficientNet-B0
-│   └── inference.py                # Scaled inference for external images
-└── README.md
-👨‍💻 About the AuthorFardeen Pathan M.Sc. Data Science Candidate | Data Science Professional Specializing in Machine Learning, Forensic Computer Vision, and Signal Processing.📍 Pune, India
+# 🛡️ Hybrid-Forensic: Deepfake Detection via RGB-Frequency Fusion
+
+A real-time **voice-activated and gesture-controlled system** using OpenCV, MediaPipe, and PyAutoGUI for smart human-computer interaction. This Python-based project enables users to control the mouse cursor and media functions (like volume and playback) through hand gestures and switch modes using voice commands.
+
+<p align="left">
+  <img src="https://img.shields.io/badge/Python-3.8+-blue?style=flat-square" alt="Python">
+  <img src="https://img.shields.io/badge/OpenCV-4.x-green?style=flat-square" alt="OpenCV">
+  <img src="https://img.shields.io/badge/MediaPipe-Hands-orange?style=flat-square" alt="MediaPipe">
+  <img src="https://img.shields.io/badge/PyAutoGUI-Automation-grey?style=flat-square" alt="PyAutoGUI">
+  <img src="https://img.shields.io/badge/SpeechRecognition-Voice%20Control-red?style=flat-square" alt="Speech">
+</p>
+
+---
+
+## 🧠 Project Summary
+
+This system uses:
+
+* **Computer Vision** for facial localized analysis using an `EfficientNet-B0` backbone.
+* **Signal Processing (FFT)** to identify "checkerboard" artifacts in the frequency domain.
+* **Grad-CAM Explainability** to visualize the specific facial zones triggering the "Fake" verdict.
+* **Robust Validation** using video-level splits to ensure zero data leakage.
+
+## 📊 Model Performance
+
+| Metric | Result | Functionality |
+| :--- | :--- | :--- |
+| **Validation AUC** | `0.9270` | High reliability across unseen video datasets |
+| **Overall Accuracy** | `87%` | General classification performance |
+| **Recall** | `80%` | Ability to catch actual fake videos |
+| **Precision** | `73%` | Accuracy of "Fake" predictions |
+
+## 🔍 Forensic Visualization
+
+* **Spatial (RGB):** Detects texture inconsistencies and blending errors.
+* **Frequency (FFT):** Detects mathematical "stars" or grids left by GAN upsampling.
