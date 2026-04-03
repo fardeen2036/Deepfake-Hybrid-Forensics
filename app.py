@@ -83,8 +83,7 @@ if uploaded_file and model:
     confidence = output if output > 0.5 else 1 - output
     color = "red" if verdict == "FAKE" else "green"
 
-    st.markdown(f"### Verdict: <span style='color:{color}'>{verdict}</span> ({confidence:.2%})", unsafe_content_allowed=True)
-
+    st.markdown(f"### Verdict: <span style='color:{color}'>{verdict}</span> ({confidence:.2%})", unsafe_allow_html=True)
     # Visualization Columns
     col1, col2, col3 = st.columns(3)
     
